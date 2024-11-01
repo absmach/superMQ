@@ -1,0 +1,14 @@
+# For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
+version: v2
+
+modules:
+  - path: internal/proto
+    lint:
+      use:
+        - STANDARD
+      except:
+      - IMPORT_USED
+    breaking:
+      use:
+        - FILE
+

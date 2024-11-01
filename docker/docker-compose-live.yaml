@@ -1,0 +1,96 @@
+# Copyright (c) Abstract Machines
+# SPDX-License-Identifier: Apache-2.0
+
+services:
+  domains:
+    image: supermq/domains-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.livereload
+    volumes:
+      - ../:/go/src/github.com/absmach/magistrala
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /go/src/github.com/absmach/magistrala
+    entrypoint: [ "air",
+                  "--build.cmd", "BUILD_DIR=/tmp make domains",
+                  "--build.bin", "/tmp/domains",
+                  "--build.stop_on_error", "true",
+                  "--build.send_interrupt", "true",
+                  "--build.include_file","dockers/.env",
+                  "--build.exclude_dir", ".vscode,.git,.docker,.github,api,build,tools,scripts",
+                  "--build.exclude_regex", "[\"_test\\.go\"" ,
+                  "--tmp_dir", "/tmp",]
+
+  users:
+    image: supermq/users-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.livereload
+    volumes:
+      - ../:/go/src/github.com/absmach/magistrala
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /go/src/github.com/absmach/magistrala
+    entrypoint: [ "air",
+                  "--build.cmd", "BUILD_DIR=/tmp make users",
+                  "--build.bin", "/tmp/users",
+                  "--build.stop_on_error", "true",
+                  "--build.send_interrupt", "true",
+                  "--build.exclude_dir", ".vscode,.git,.docker,.github,api,build,tools,scripts",
+                  "--build.exclude_regex", "[\"_test\\.go\"" ,
+                  "--tmp_dir", "/tmp",]
+  things:
+    image: supermq/things-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.livereload
+    volumes:
+      - ../:/go/src/github.com/absmach/magistrala
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /go/src/github.com/absmach/magistrala
+    entrypoint: [ "air",
+                  "--build.cmd", "BUILD_DIR=/tmp make things",
+                  "--build.bin", "/tmp/things",
+                  "--build.stop_on_error", "true",
+                  "--build.send_interrupt", "true",
+                  "--build.exclude_dir", ".vscode,.git,.docker,.github,api,build,tools,scripts",
+                  "--build.exclude_regex", "[\"_test\\.go\"" ,
+                  "-tmp_dir", "/tmp",]
+
+  channels:
+    image: supermq/channels-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.livereload
+    volumes:
+      - ../:/go/src/github.com/absmach/magistrala
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /go/src/github.com/absmach/magistrala
+    entrypoint: [ "air",
+                  "--build.cmd", "BUILD_DIR=/tmp make channels",
+                  "--build.bin", "/tmp/channels",
+                  "--build.stop_on_error", "true",
+                  "--build.send_interrupt", "true",
+                  "--build.exclude_dir", ".vscode,.git,.docker,.github,api,build,tools,scripts",
+                  "--build.exclude_regex", "[\"_test\\.go\"" ,
+                  "-tmp_dir", "/tmp",]
+
+  channels-db:
+    command: ["postgres", "-c", "log_statement=all"]
+
+  groups:
+    image: supermq/groups-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.livereload
+    volumes:
+      - ../:/go/src/github.com/absmach/magistrala
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /go/src/github.com/absmach/magistrala
+    entrypoint: [ "air",
+                  "--build.cmd", "BUILD_DIR=/tmp make groups",
+                  "--build.bin", "/tmp/groups",
+                  "--build.stop_on_error", "true",
+                  "--build.send_interrupt", "true",
+                  "--build.exclude_dir", ".vscode,.git,.docker,.github,api,build,tools,scripts",
+                  "--build.exclude_regex", "[\"_test\\.go\"" ,
+                  "-tmp_dir", "/tmp",]

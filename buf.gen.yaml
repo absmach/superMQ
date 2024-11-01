@@ -1,0 +1,24 @@
+version: v2
+# 'clean', when set to true, deletes the directories, zip files, and/or jar files specified in the `out` field for
+# all plugins before running code generation.
+clean: true
+
+managed:
+  # 'enabled: true' turns managed mode on, 'enabled: false' ignores all managed mode options.
+  enabled: true # default: false
+
+plugins:
+  # Local binary plugin, search in ${PATH} by default
+  - local: protoc-gen-go
+    out: internal/grpc
+    opt:
+      - paths=source_relative
+  - local: protoc-gen-go-grpc
+    out: internal/grpc
+    opt:
+      - paths=source_relative
+
+inputs:
+  # modules path which are used in buf.yaml
+  - directory: internal/proto
+
